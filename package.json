@@ -1,0 +1,14 @@
+{
+    "name": "tgwatcher",
+    "version": "1.0.0",
+    "description": "TBD",
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "serverless-domain-manager": "^7.1.2",
+        "serverless-dotenv-plugin": "^6.0.0",
+        "serverless-functions-base-path": "^1.0.33",
+        "serverless-plugin-warmup": "^8.2.1",
+        "serverless-python-requirements": "^6.0.0"
+    }
+}

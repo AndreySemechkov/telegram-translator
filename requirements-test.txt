@@ -1,0 +1,15 @@
+-r requirements.txt
+black==23.9.1
+google-api-python-client-stubs==1.18.0
+loguru-mypy==0.0.4
+mongo-types==0.15.1
+mypy==1.6.0
+mypy-extensions==1.0.0
+pylint==3.0.1
+pytest==v7.4.2
+pytest-cov==v4.1.0
+python-dotenv==1.0.0
+types-beautifulsoup4==4.12.0.6
+types-Flask-Cors==4.0.0.1
+types-requests==2.28.11.17
+boto3==1.28.63

@@ -1,0 +1,160 @@
+service: tgwatcher
+
+frameworkVersion: ">=3.35.2"
+
+package:
+  exclude:
+    - "./**"
+  include:
+    - "src/server/**"
+    - "src/tests/data/raw_sample.json"
+
+provider:
+  name: aws
+  runtime: python3.10
+  region: us-east-1
+  stage: ${opt:stage, 'local'}
+  environment:
+    MONGO_DB_URL: <mongodb-HERE>
+    GOOGLE_TRANSLATE_API: <TOKEN-HERE>
+
+  iam:
+    role:
+      managedPolicies:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - events:PutTargets
+        - events:PutRule
+        - events:PutEvents
+      Resource: "*"
+
+plugins:
+  - serverless-functions-base-path
+  - serverless-python-requirements
+  - serverless-plugin-warmup
+  - serverless-dotenv-plugin
+  - serverless-domain-manager
+
+custom:
+  functionsBasePath: src/server
+  mediaBucketName: ${self:provider.region}-${self:service}-tg-watcher-media-${self:provider.stage}
+  warmup:
+    defaultWormer:
+      enabled: false
+      concurrency: 1
+  pythonRequirements:
+    dockerizePip: false
+    pythonBin: python3.10
+    fileName: requirements.txt
+  basePath: messages
+  domainName:
+    prod: api.ironwatchers.com
+    staging: stage-api.ironwatchers.com
+    dev: dev-api.ironwatchers.com
+  certificateName:
+    prod: app.ironwatchers.com
+    staging: stage-app.ironwatchers.com
+    dev: dev-app.ironwatchers.com
+  customDomain:
+    type: rest
+    domainName: ${self:custom.domainName.${self:provider.stage}}
+    basePath: ${self:custom.basePath}
+    certificateName: ${self:custom.certificateName.${self:provider.stage}}
+    stage: ${self:provider.stage}
+    endpointType: "edge"
+    securityPolicy: tls_1_2
+    createRoute53Record: false
+  events:
+    bus: ironwatcherBus
+    source: ironwatcher.app
+    detailType: ScraperDispatched
+
+functions:
+
+  list:
+    handler: api/get_list.get_list
+    events:
+      - http:
+          path: messages
+          method: get
+          cors: true
+    warmup:
+      defaultWormer:
+        enabled: true
+    environment:
+      MONGO_DB_URL: <mongodb-HERE>
+      MEDIA_BUCKET_NAME: ${self:custom.mediaBucketName}
+      DEPLOYMENT_STAGE: ${self:provider.stage}
+
+  get:
+    handler: api/get.get
+    events:
+      - http:
+          path: messages/{id}
+          method: get
+          cors: true
+    warmup:
+      defaultWormer:
+        enabled: true
+    environment:
+      MONGO_DB_URL: <mongodb-HERE>
+      MEDIA_BUCKET_NAME: ${self:custom.mediaBucketName}
+      DEPLOYMENT_STAGE: ${self:provider.stage}
+
+  dispatcher:
+    handler: tasks/dispatcher.handler
+    description: 'This lambda fetches channel_ids and sends scraperDispatched event for each'
+    events:
+      - schedule: rate(10 minutes)
+    environment:
+      MONGO_DB_URL:  <mongodb-HERE>
+      DEPLOYMENT_STAGE: ${self:provider.stage}
+
+  scraper:
+    handler: tasks/scraper.fetch
+    description: 'Lambda that is scraping the given channel'
+    events:
+     - eventBridge:
+        eventBus: ${self:custom.events.bus}
+        pattern:
+          source:
+            - ${self:custom.events.source}
+          detail-type:
+            - ${self:custom.events.detailType}
+    environment:
+      MONGO_DB_URL: <mongodb-HERE>
+      GOOGLE_TRANSLATE_API: <TOKEN>
+      MEDIA_BUCKET_NAME: ${self:custom.mediaBucketName}
+      DEPLOYMENT_STAGE: ${self:provider.stage}
+
+resources:
+  Resources:
+    MediaBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.mediaBucketName}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+
+    MediaBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: MediaBucket
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Sid: AllowGetObject
+              Effect: Allow
+              Principal: '*'
+              Action: s3:GetObject
+              Resource:
+                Fn::Sub: arn:aws:s3:::${self:custom.mediaBucketName}/*
+                

@@ -1,0 +1,134 @@
+{
+    "messages": [{
+        "_": "message",
+        "out": false,
+        "mentioned": false,
+        "media_unread": false,
+        "silent": false,
+        "post": true,
+        "from_scheduled": false,
+        "legacy": false,
+        "edit_hide": true,
+        "pinned": false,
+        "noforwards": false,
+        "id": 39838,
+        "peer_id": {
+            "_": "peerChannel",
+            "channel_id": 1318165547
+        },
+        "date": 1697185537,
+        "message": "الشعب الأردني يلبي نداء طوفان الأقصى ويتجه نحو الحدود مع فلسطين",
+        "media": {
+            "_": "messageMediaDocument",
+            "nopremium": false,
+            "spoiler": false,
+            "document": {
+                "_": "document",
+                "id": 5856984409781047947,
+                "access_hash": -8767213253417857303,
+                "file_reference": {
+                    "_": "bytes",
+                    "bytes": "Ak6RnCsAAJueZSj/nO6RvbbS2bN1mq3gIaqT4sg="
+                },
+                "date": 1697185537,
+                "mime_type": "video/mp4",
+                "size": 6262442,
+                "thumbs": [
+                    {
+                        "_": "photoStrippedSize",
+                        "type": "i",
+                        "bytes": {
+                            "_": "bytes",
+                            "bytes": "ASgXr4oxUuyjZW5lcYBRUoWigQ7Jz9zA+tBYg8gAfWkz70yVhEAzg8nArDnkb8iH7mJBGB9aKmjt1wGJB9PSijmkLlQ2aPy1DBmB9FHWqckckzhmRuvQqTxRRSGaMalIwO/8qKKKQH8="
+                        },
+                        "inflated": {
+                            "_": "bytes",
+                            "bytes": "/9j/4AAQSkZJRg"
+                            }
+                        },
+                    {
+                        "_": "photoSize",
+                        "type": "m",
+                        "w": 181,
+                        "h": 320,
+                        "size": 14536
+                    }
+                ],
+                "dc_id": 4,
+                "attributes": [
+                    {
+                        "_": "documentAttributeVideo",
+                        "round_message": false,
+                        "supports_streaming": true,
+                        "nosound": false,
+                        "duration": 24.753,
+                        "w": 480,
+                        "h": 848
+                    }
+                ]
+            }
+        },
+        "views": 24608,
+        "forwards": 36,
+        "replies": {
+            "_": "messageReplies",
+            "comments": true,
+            "replies": 0,
+            "replies_pts": 5638414,
+            "channel_id": 1541877469
+        },
+        "edit_date": 1697185544,
+        "reactions": {
+            "_": "messageReactions",
+            "min": false,
+            "can_see_list": false,
+            "results": [
+                {
+                    "_": "reactionCount",
+                    "reaction": {
+                        "_": "reactionEmoji",
+                        "emoticon": "❤"
+                    },
+                    "count": 314
+                },
+                {
+                    "_": "reactionCount",
+                    "reaction": {
+                        "_": "reactionEmoji",
+                        "emoticon": "❤‍🔥"
+                    },
+                    "count": 274
+                },
+                {
+                    "_": "reactionCount",
+                    "reaction": {
+                        "_": "reactionEmoji",
+                        "emoticon": "👍"
+                    },
+                    "count": 58
+                },
+                {
+                    "_": "reactionCount",
+                    "reaction": {
+                        "_": "reactionEmoji",
+                        "emoticon": "😭"
+                    },
+                    "count": 54
+                },
+                {
+                    "_": "reactionCount",
+                    "reaction": {
+                        "_": "reactionEmoji",
+                        "emoticon": "😢"
+                    },
+                    "count": 45
+                }
+            ]
+        }
+}],
+"chats": [
+    {
+        "username": "nasralla"
+    }
+]
+}

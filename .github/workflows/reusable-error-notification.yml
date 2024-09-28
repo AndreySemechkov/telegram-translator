@@ -1,0 +1,73 @@
+name: 'Error Notification'
+
+on:
+  workflow_call:
+    secrets:
+      DISCORD_WEBHOOK_URL:
+        description: 'The Discord Webhook URL'
+        required: true
+    inputs:
+      color:
+        description: 'Color of the Discord message'
+        required: false
+        default: 'red'
+        type: string
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Error Notification
+        run: |
+          WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}
+          RUN_URL="https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          ACTOR=${{ github.actor }}
+
+          # Convert color name to decimal value
+          case "${{ inputs.color }}" in
+            red) COLOR=16711680 ;;
+            yellow) COLOR=16776960 ;;
+            green) COLOR=65280 ;;
+            blue) COLOR=255 ;;
+            *) COLOR=16711680 ;;  # Default to red if unrecognized color
+          esac
+
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "embeds": [
+                   {
+                     "title": "Error Notification",
+                     "description": "@here A job has failed in the GitHub Actions workflow",
+                     "color": '$COLOR',
+                     "fields": [
+                       {
+                         "name": "Repository",
+                         "value": "'"$GITHUB_REPOSITORY"'",
+                         "inline": true
+                       },
+                       {
+                         "name": "Workflow",
+                         "value": "'"$GITHUB_WORKFLOW"'",
+                         "inline": true
+                       },
+                       {
+                         "name": "Triggered by",
+                         "value": "'"$ACTOR"'",
+                         "inline": true
+                       },
+                       {
+                         "name": "Run ID",
+                         "value": "'"$GITHUB_RUN_ID"'",
+                         "inline": true
+                       },
+                       {
+                         "name": "Link to Failed Job",
+                         "value": "'"$RUN_URL"'",
+                         "inline": true
+                       }
+                     ]
+                   }
+                 ]
+               }' \
+               $WEBHOOK_URL

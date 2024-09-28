@@ -1,0 +1,4 @@
+GOOGLE_TRANSLATE_API = "<API KEY>"
+MONGO_CONNSTR = "<CONNSTR>"
+MONGO_DB = "ironwatchers"
+MONGO_COLLECTION = "content"

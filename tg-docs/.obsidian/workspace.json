@@ -1,0 +1,186 @@
+{
+  "main": {
+    "id": "88609d4a15b2acba",
+    "type": "split",
+    "children": [
+      {
+        "id": "a649d07d06c3c0e5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ece908f569344d46",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Supporting multiple envs in the app layer.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "595e048110957eaf",
+    "type": "split",
+    "children": [
+      {
+        "id": "95118a95494f8f80",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b7bd8f52d545af0e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d10eb529b09a0b88",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "b54828fc2edba202",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "4197003946acb626",
+    "type": "split",
+    "children": [
+      {
+        "id": "f3129f1300537d21",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ce193a3588142249",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Excalidraw/Supporting multiple envs in the app layer.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "775e84dca213162b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Excalidraw/Supporting multiple envs in the app layer.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "8bceb050c322d779",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "3fcf0e8ef341aacf",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Excalidraw/Supporting multiple envs in the app layer.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false
+    }
+  },
+  "active": "ece908f569344d46",
+  "lastOpenFiles": [
+    "Supporting Multiple Environments.md",
+    "README.md",
+    "Excalidraw/Supporting multiple envs in the app layer.md",
+    "Excalidraw/Drawing 2023-10-16 16.04.30.excalidraw.png",
+    "test-api-by-creating-and-querying-items.md",
+    "ReadMe.md",
+    "Excalidraw/architecture-overview.excalidraw.md",
+    "dailies/2023-10-16.md",
+    "infra/infra.md",
+    "infra/05-add-aws-account.md",
+    "infra/04-terraform-environments.md",
+    "infra/03-module-overview.md",
+    "infra/02-setup-and-run.md",
+    "infra/01-project-overview.md",
+    "infra",
+    "deploy-serverless-api-to-aws.md",
+    "dailies/2023-10-15.md",
+    "dailies",
+    "create-mongo-atlas-backend.md",
+    "Excalidraw",
+    "03-modules/01-module-overview.md",
+    "03-modules",
+    "Excalidraw/Drawing 2023-10-16 10.51.18.excalidraw.md",
+    "Excalidraw/Drawing 2023-10-16 10.48.52.excalidraw.md",
+    "Untitled.canvas",
+    "infra/06-other-topic.md",
+    "infra/07-another-folder/01-another-topic.md",
+    "infra/07-another-folder",
+    "infra/03-modules",
+    "infra/06-other-important-information.md",
+    "infra/03-modules.md",
+    "infra/05-add-new-aws-account.md",
+    "infra/01-code-structure.md",
+    "2023-10-16.md",
+    "tg-docs"
+  ]
+}

@@ -1,0 +1,44 @@
+# Main Workflow
+name: Deploy BE
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Unit Tests backend and Linting
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy-be-staging:
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-deploy-be-to-env.yml@main
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
+    with:
+      stage: 'staging'
+
+  e2e-tests:
+    needs: deploy-be-staging
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-run-e2e.yml@main
+
+  deploy-be-prod:
+    needs: e2e-tests
+    if: success()
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-deploy-be-to-env.yml@main
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+    with:
+      stage: 'prod'
+
+  notify-on-failure:
+    needs: deploy-be-prod
+    if: failure() || cancelled()
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-error-notification.yml@main
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    with:
+      color: 'red'

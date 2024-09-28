@@ -1,0 +1,12 @@
+{
+    "source": "ironwatcher.app",
+    "detail-type": "ScraperDispatched",
+    "detail": {
+        "url": "https://tg.i-c-a.su/json/jenin_qasam?limit=100"
+    }
+}
+
+
+
+
+    

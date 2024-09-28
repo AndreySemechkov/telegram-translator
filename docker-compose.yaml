@@ -1,0 +1,9 @@
+services:
+  app:
+    container_name: tgwatcher
+    build: .
+    ports:
+    - "5000:5000"
+secrets:
+  GOOGLE_TRANSLATE_KEY:
+    file: translate-key

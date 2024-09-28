@@ -1,0 +1,20 @@
+name: 'Reusable E2E Tests Workflow'
+
+on:
+  workflow_call:
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/tests/e2e
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress tests
+        run: npx cypress run -s cypress/e2e/e2e.cy.js

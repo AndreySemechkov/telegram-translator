@@ -1,0 +1,45 @@
+name: Deploy UI
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Build and Test UI
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy-ui-staging:
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-deploy-ui-to-env.yml@main
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
+    with:
+      build_stage: 'staging'
+      s3_bucket: 'stage-app.ironwatchers.com'
+
+  e2e-tests:
+    needs: deploy-ui-staging
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-run-e2e.yml@main
+
+  deploy-ui-prod:
+    needs: e2e-tests
+    if: success()
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-deploy-ui-to-env.yml@main
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+    with:
+      build_stage: 'prod'
+      s3_bucket: 'app.ironwatchers.com'
+
+  notify-on-failure:
+    needs: deploy-ui-prod
+    if: failure() || cancelled()
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-error-notification.yml@main
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    with:
+      color: 'red'

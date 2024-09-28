@@ -1,0 +1,38 @@
+name: Build and Test UI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-ui:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+
+      - name: NPM CI
+        run: npm ci
+        working-directory: 'src/ui'
+
+      - name: NPM Lint
+        run: npm run lint
+        working-directory: 'src/ui'
+
+      - name: NPM Test
+        run: npm test
+        working-directory: 'src/ui'
+
+
+  notify-on-failure:
+    needs: build-ui
+    if: failure() || cancelled()
+    uses: IronWatchers/tgWatcher/.github/workflows/reusable-error-notification.yml@main
+    secrets:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    with:
+      color: 'yellow'

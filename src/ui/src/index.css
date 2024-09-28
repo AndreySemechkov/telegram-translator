@@ -1,0 +1,26 @@
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root,
+.app {
+    height: 100%;
+    width: 100%;
+    margin: unset;
+}
+
+.ant-card .ant-card-meta-description {
+    color: #000000;
+}
+
+#root .ant-input-search .ant-input  {
+    border-radius: 20px 0px 0px 20px;
+    overflow: "hidden";
+}
+
+#root .ant-input-search .ant-btn  {
+    border-radius: 0px 20px 20px 0px;
+    overflow: "hidden";
+}

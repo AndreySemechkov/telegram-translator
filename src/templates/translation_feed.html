@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Feed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            background-color: #1877f2;
+            color: white;
+            padding: 10px;
+            margin: 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            border: 1px solid #e9e9e9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        li:hover {
+            background-color: #f6f7f8;
+        }
+        strong {
+            color: #1877f2;
+        }
+        img {
+            max-width: 100%;
+            cursor: pointer; /* Add pointer cursor to make the image clickable */
+        }
+        a {
+            color: #1877f2;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        form {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Translation Feed</h1>
+    <form action="{{ url_for('translation_feed') }}" method="GET">
+        <input type="text" name="search_query" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    <select name="sort_option" id="sort_option" onchange="this.form.submit()">
+        <option value="title">Sort by Title</option>
+        <option value="messageDate">Sort by Date</option>
+    </select>
+    <ul>
+        {% for item in feed %}
+            <li>
+                <strong>Title:</strong> {{ item.msgOrig }}<br>
+                <strong>Description:</strong> {{ item.msgOrig }}<br>
+                <strong>Hebrew Translation (hebText):</strong> {{ item.msgs['HE'] }}<br>
+                <strong>English Translation (engText):</strong> {{ item.msgs['EN'] }}<br>
+                <!-- Update the Link section to include target="_blank" attribute -->
+                <strong>Link:</strong> <a href="https://t.me/{{ item.username }}/{{ item.msgId }}" target="_blank">https://t.me/{{ item.username }}/{{ item.msgId }}</a><br>
+                <strong>Message Date:</strong> <span class="message-date">{{ item.date }}</span><br>
+                {% if item.mediaURL %}
+                    <a href="{{ item.mediaURL }}" target="_blank" data-preview-url="{{ item.mediaURL }}">
+                        <img referrerPolicy="no-referrer" src="{{ item.mediaURL }}" alt="Image">
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        <span>Page {{ page }} of {{ max_pages }}</span>
+        {% if page > 1 %}
+            <a href="{{ url_for('translation_feed', page=1) }}">First</a>
+            <a href="{{ url_for('translation_feed', page=page-1) }}">Previous</a>
+        {% endif %}
+        {% if page < max_pages %}
+            <a href="{{ url_for('translation_feed', page=page+1) }}">Next</a>
+            <a href="{{ url_for('translation_feed', page=max_pages) }}">Last</a>
+        {% endif %}
+    </div>
+    <script>
+        // Convert and display Message Date in the user's browser time zone
+        const messageDateElements = document.querySelectorAll('.message-date');
+        messageDateElements.forEach((element) => {
+            const messageDate = new Date(element.textContent * 1000); // Convert from UNIX timestamp
+            element.textContent = messageDate.toLocaleString();
+        });
+
+        // Handle image clicks to remove "/preview" from the link in the pop-up
+        const imageLinks = document.querySelectorAll('a[data-preview-url]');
+        imageLinks.forEach((link) => {
+            link.addEventListener('click', (e) => {
+                const previewUrl = link.getAttribute('data-preview-url');
+                const imageUrl = previewUrl.replace('/preview', '');
+                link.setAttribute('href', imageUrl);
+            });
+        });
+    </script>
+</body>
+</html>

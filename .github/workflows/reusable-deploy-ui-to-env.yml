@@ -1,0 +1,50 @@
+name: 'Deploy UI to Env Workflow'
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+    inputs:
+      build_stage:
+        required: true
+        type: string
+      s3_bucket:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get install -y python3-pip
+          pip3 install awscli --upgrade --user
+
+      - name: Install packages
+        run: npm install
+        working-directory: 'src/ui'
+
+      - name: Build webapp
+        run: npm run build:${{ inputs.build_stage }}
+        working-directory: 'src/ui'
+
+      - name: Deploy to S3 bucket
+        run: |
+          aws s3 sync src/ui/dist s3://${{ inputs.s3_bucket }}
